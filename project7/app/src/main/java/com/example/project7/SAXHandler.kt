@@ -22,8 +22,8 @@ class SAXHandler : DefaultHandler() {
         validText = true
         if( qName != null ) {
             currentElement = qName
-            if( currentElement.equals( "item" ) )
-                currentItem = Balloon( "", "" )
+            if( currentElement.equals( "balloon" ) )
+                currentItem = Balloon( 0, 0, 0)
         }
 
     }
@@ -33,7 +33,7 @@ class SAXHandler : DefaultHandler() {
         // Log.w( "MainActivity", "end element is " + localName )
 
         validText = false
-        if( qName.equals( "item" ) && currentItem != null )
+        if( qName.equals( "balloon" ) && currentItem != null )
             listOfItems.add( currentItem!! )
     }
 
@@ -44,15 +44,17 @@ class SAXHandler : DefaultHandler() {
             // Log.w("MainActivity", "characters are " + s)
 
             if( validText && currentItem != null ) {
-                if( currentElement.equals( "title" ) )
-                    currentItem!!.Balloon( s )
-                else if( currentElement.equals( "link" ) )
-                    currentItem!!.setLink( s )
+                if( currentElement.equals( "x" ) )
+                    currentItem!!.setX( s.toInt() )
+                else if( currentElement.equals( "y" ) )
+                    currentItem!!.setY( s.toInt() )
+                else if (currentElement.equals("radius"))
+                    currentItem!!.setRadius(s.toInt())
             }
         }
     }
 
-    fun getItems( ) : ArrayList<Item> {
+    fun getItems( ) : ArrayList<Balloon> {
         return listOfItems
     }
 
