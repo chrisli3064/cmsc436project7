@@ -1,28 +1,32 @@
 package com.example.project7
 
+import android.graphics.Rect
+import android.util.Log
 import kotlinx.coroutines.awaitAll
 
 class Balloons {
 
-    private var allBalloons: ArrayList<Balloon>? = null
+    private lateinit var allBalloons: ArrayList<Balloon>
     private var counter = 0
     private var allPopped = false
 
-    constructor(newBalloons: ArrayList<Balloon>) {
+    private lateinit var screenRect: Rect
 
+    constructor(newBalloons: ArrayList<Balloon>,screenRect: Rect) {
+        this.screenRect = screenRect
         allBalloons = newBalloons
-        counter = allBalloons!!.size + 3
+        counter = allBalloons.size + 3
     }
-    fun onClick (x: Int, y: Int) {
-
+    fun onClick (x: Float, y: Float) {
+        val adjustedY = y - screenRect.top
         counter ++
 
-        for (balloon in allBalloons!!) {
+        for (balloon in allBalloons) {
 
             if (!balloon.getPopped()) {
-                val distance = balloon.getDistance(x, y)
+                val distance = balloon.getDistance(x, adjustedY)
 
-                if (distance < balloon.getRadius()!!) {
+                if (distance <= balloon.getRadius()) {
                     balloon.pop()
                 }
             }
@@ -32,15 +36,15 @@ class Balloons {
     fun hasWon(): Boolean {
 
         var pops = 0
-        for( balloon in allBalloons!!) {
+        for( balloon in allBalloons) {
             if (balloon.getPopped())
                 pops += 1
         }
 
-        if (pops == allBalloons!!.size){
+        if (pops == allBalloons.size){
             allPopped = true
 
-            if (counter <= allBalloons!!.size + 3)
+            if (counter <= allBalloons.size + 3)
                 return true
         }
 
@@ -48,7 +52,11 @@ class Balloons {
     }
 
     fun hasLost(): Boolean {
-        return counter > allBalloons!!.size + 3
+        return counter > allBalloons.size + 3
+    }
+
+    fun getAllBalloons(): ArrayList<Balloon>{
+        return allBalloons
     }
 
 

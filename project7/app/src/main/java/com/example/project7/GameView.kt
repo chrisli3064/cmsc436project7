@@ -1,7 +1,10 @@
 package com.example.project7
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Rect
+import android.util.Log
 import android.view.View
 
 class GameView : View {
@@ -13,16 +16,34 @@ class GameView : View {
 
     private lateinit var balloons: Balloons
 
-    constructor (context : Context, statusBarHeight :Int, width : Int, height : Int, bestScore : Int) : super() {
+    constructor (context : Context, statusBarHeight :Int, width : Int, height : Int,balloonList: ArrayList<Balloon>) : super(context) {
 
         paint = Paint()
-        paint.textSize = 130f
+
         this.width = width
         this.height = height
 
+        val screenRect = Rect(0,statusBarHeight,width, height)
+
+        balloons = Balloons(balloonList,screenRect)
     }
 
-    fun setBalloons(balloonList: ArrayList<Balloon>){
-        balloons = Balloons(balloonList)
+    fun getBalloons(): Balloons{
+        return balloons
+    }
+    override fun onDraw(canvas: Canvas){
+
+        super.onDraw(canvas)
+
+        val balloonList = balloons.getAllBalloons()
+
+        for (balloon in balloonList){
+            if (!balloon.getPopped()){
+                canvas.drawCircle(balloon.getX().toFloat(), balloon.getY().toFloat(), balloon.getRadius().toFloat(),paint )
+            }
+        }
+
+
+
     }
 }

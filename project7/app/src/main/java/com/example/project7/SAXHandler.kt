@@ -23,7 +23,7 @@ class SAXHandler : DefaultHandler() {
         if( qName != null ) {
             currentElement = qName
             if( currentElement.equals( "balloon" ) )
-                currentItem = Balloon( 0, 0, 0)
+                currentItem = Balloon( 0f, 0f, 0f)
         }
 
     }
@@ -45,11 +45,11 @@ class SAXHandler : DefaultHandler() {
 
             if( validText && currentItem != null ) {
                 if( currentElement.equals( "x" ) )
-                    currentItem!!.setX( s.toInt() )
+                    currentItem!!.setX( s.toFloat() )
                 else if( currentElement.equals( "y" ) )
-                    currentItem!!.setY( s.toInt() )
+                    currentItem!!.setY( s.toFloat() )
                 else if (currentElement.equals("radius"))
-                    currentItem!!.setRadius(s.toInt())
+                    currentItem!!.setRadius(s.toFloat())
             }
         }
     }
