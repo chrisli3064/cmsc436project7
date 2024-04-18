@@ -2,6 +2,7 @@ package com.example.project7
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.Log
@@ -20,6 +21,7 @@ class GameView : View {
 
         paint = Paint()
 
+        paint.setColor(Color.parseColor("#00FdFd"))
         this.width = width
         this.height = height
 

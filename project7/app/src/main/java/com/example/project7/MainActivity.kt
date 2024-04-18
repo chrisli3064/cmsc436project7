@@ -5,14 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.widget.Toast
+import android.widget.Toast.makeText
 import java.io.InputStream
 import javax.xml.parsers.SAXParser
 import javax.xml.parsers.SAXParserFactory
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var gameView: GameView
     private lateinit var balloons: Balloons
+    private var endToastShown : Boolean = false
 
 
 
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val saxParser : SAXParser = factory.newSAXParser()
 
         val handler: SAXHandler = SAXHandler()
-        val BALLOONID = R.raw.balloons1
+        val BALLOONID = R.raw.balloons3
         var iStream : InputStream = resources.openRawResource(BALLOONID)
 
         val width : Int  = resources.displayMetrics.widthPixels
@@ -62,8 +64,17 @@ class MainActivity : AppCompatActivity() {
 
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
 
-            balloons.onClick(e.x,e.y)
+            var winCheck = balloons.onClick(e.x,e.y)
             gameView.postInvalidate()
+
+            if (winCheck == 1 && !endToastShown) {
+                var toast : Toast = makeText(this@MainActivity, "YOU WON", Toast.LENGTH_LONG)
+                toast.show()
+                endToastShown = true
+            } else if (winCheck == -1 && !endToastShown) {
+                finish()
+            }
+
             return super.onSingleTapConfirmed(e)
         }
 

@@ -15,9 +15,9 @@ class Balloons {
     constructor(newBalloons: ArrayList<Balloon>,screenRect: Rect) {
         this.screenRect = screenRect
         allBalloons = newBalloons
-        counter = allBalloons.size + 3
+        counter = 0
     }
-    fun onClick (x: Float, y: Float) {
+    fun onClick (x: Float, y: Float) : Int {
         val adjustedY = y - screenRect.top
         counter ++
 
@@ -30,6 +30,15 @@ class Balloons {
                     balloon.pop()
                 }
             }
+        }
+
+        // now return -1 if the user lost, 1 if the user won, and 0 if game is not over yet
+        return if (hasWon()) {
+            1
+        } else if (hasLost()) {
+            -1
+        } else {
+            0
         }
     }
 
@@ -44,8 +53,9 @@ class Balloons {
         if (pops == allBalloons.size){
             allPopped = true
 
-            if (counter <= allBalloons.size + 3)
+            if (counter <= allBalloons.size + 3){
                 return true
+            }
         }
 
         return false

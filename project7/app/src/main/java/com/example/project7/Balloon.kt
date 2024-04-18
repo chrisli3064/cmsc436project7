@@ -39,7 +39,7 @@ class Balloon {
 
 
     override fun toString(): String {
-        return "($x;,$y;) $radius"
+        return "$x; $y; $radius"
     }
 
     fun getDistance(pointX: Float, pointY: Float): Float {
