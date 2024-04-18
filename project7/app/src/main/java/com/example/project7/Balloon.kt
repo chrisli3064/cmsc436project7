@@ -25,4 +25,8 @@ class Balloon {
         radius = newRadius
     }
 
+
+    override fun toString(): String {
+        return "($x;,$y;) $radius"
+    }
 }
